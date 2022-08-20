@@ -17,6 +17,7 @@
         "borsh": "^0.7.0"
     },
     "devDependencies": {
+        "@types/bn.js": "^5.1.0",
         "@types/read": "^0.0.29",
         "assert": "^2.0.0",
         "crypto-browserify": "^3.12.0",
