@@ -1,6 +1,6 @@
 import { getIpfsRecord, NameRegistryState, } from "@bonfida/spl-name-service";
 import Connection from "./connection.js";
-import { AbstractResolverModule, DNS_RECORD_TYPE, getSld, resolverEmptyResponse, resolverError, resolveSuccess, } from "@lumeweb/libresolver";
+import { AbstractResolverModule, DNS_RECORD_TYPE, getSld, resolverEmptyResponse, resolverError, resolveSuccess, ensureUniqueRecords, } from "@lumeweb/libresolver";
 import { getDomainKey } from "@bonfida/spl-name-service";
 export default class Solana extends AbstractResolverModule {
     async resolve(domain, options, bypassCache) {
@@ -8,7 +8,7 @@ export default class Solana extends AbstractResolverModule {
             return resolverEmptyResponse();
         }
         const connection = new Connection(this.resolver.rpcNetwork, bypassCache);
-        const records = [];
+        let records = [];
         if ([DNS_RECORD_TYPE.CONTENT, DNS_RECORD_TYPE.TEXT].includes(options.type)) {
             let ipfs;
             try {
@@ -37,6 +37,7 @@ export default class Solana extends AbstractResolverModule {
                 records.push({ type: DNS_RECORD_TYPE.CONTENT, value: data });
             }
         }
+        records = ensureUniqueRecords(records);
         if (0 < records.length) {
             return resolveSuccess(records);
         }
