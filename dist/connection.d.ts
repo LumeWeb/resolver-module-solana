@@ -1,5 +1,5 @@
 import { Connection as SolanaConnection } from "@solana/web3.js";
-import { RpcNetwork } from "@lumeweb/kernel-libresolver";
+import type { RpcNetwork } from "@lumeweb/dht-rpc-client";
 export default class Connection extends SolanaConnection {
   private _network;
   private _bypassCache;
