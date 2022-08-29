@@ -16,6 +16,7 @@ import {
   resolverEmptyResponse,
   resolverError,
   resolveSuccess,
+  ensureUniqueRecords,
 } from "@lumeweb/libresolver";
 import { DNSResult, ResolverOptions } from "@lumeweb/libresolver/src/types.js";
 import { getDomainKey } from "@bonfida/spl-name-service";
@@ -34,7 +35,7 @@ export default class Solana extends AbstractResolverModule {
       bypassCache
     );
 
-    const records: DNSRecord[] = [];
+    let records: DNSRecord[] = [];
 
     if (
       [DNS_RECORD_TYPE.CONTENT, DNS_RECORD_TYPE.TEXT].includes(options.type)
@@ -71,6 +72,8 @@ export default class Solana extends AbstractResolverModule {
         records.push({ type: DNS_RECORD_TYPE.CONTENT, value: data });
       }
     }
+
+    records = ensureUniqueRecords(records);
 
     if (0 < records.length) {
       return resolveSuccess(records);
