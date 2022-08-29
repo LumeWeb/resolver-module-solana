@@ -1,6 +1,5 @@
 import { Connection as SolanaConnection } from "@solana/web3.js";
-import pocketNetworks from "@lumeweb/pokt-rpc-endpoints";
-import { RpcNetwork } from "@lumeweb/kernel-libresolver";
+import type { RpcNetwork } from "@lumeweb/dht-rpc-client";
 
 export default class Connection extends SolanaConnection {
   private _network: RpcNetwork;
@@ -19,13 +18,19 @@ export default class Connection extends SolanaConnection {
   }
 
   async __rpcRequest(methodName: string, args: any[]) {
-    const req = this._network.query(
+    const req = this._network.wisdomQuery(
       methodName,
-      pocketNetworks["solana-mainnet"],
+      "solana",
       args,
       this._bypassCache
     );
 
-    return req.result;
+    const ret = await req.result;
+
+    if (ret.error) {
+      throw new Error(ret.error);
+    }
+
+    return ret.data;
   }
 }

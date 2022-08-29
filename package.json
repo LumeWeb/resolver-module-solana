@@ -13,10 +13,10 @@
         "@bonfida/spl-name-service": "^0.1.48",
         "@lumeweb/kernel-libresolver": "https://github.com/LumeWeb/kernel-libresolver.git",
         "@lumeweb/libresolver": "https://github.com/LumeWeb/libresolver.git",
-        "@lumeweb/pokt-rpc-endpoints": "https://github.com/LumeWeb/pokt-rpc-endpoints.git",
         "borsh": "^0.7.0"
     },
     "devDependencies": {
+        "@lumeweb/relay-types": "https://github.com/LumeWeb/relay-types.git",
         "@types/bn.js": "^5.1.0",
         "@types/read": "^0.0.29",
         "assert": "^2.0.0",
